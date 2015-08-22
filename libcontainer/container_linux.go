@@ -768,7 +768,10 @@ func (c *linuxContainer) updateState(process parentProcess) error {
 }
 
 func (c *linuxContainer) checkFreezer() (Status, error) {
-	path := c.cgroupManager.GetPaths()["freezer"]
+	path, ok := c.cgroupManager.GetPaths()["freezer"]
+	if (!ok) {
+		return Running, nil
+	}
 	contents, err := ioutil.ReadFile(filepath.Join(path, "freezer.state"))
 	if err != nil {
 		if os.IsNotExist(err) {
