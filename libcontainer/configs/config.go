@@ -320,6 +320,9 @@ func (c Command) Run(s HookState) error {
 		Stdout: &stdout,
 		Stderr: &stderr,
 	}
+	if cmd.Env == nil {
+		cmd.Env = []string{}
+	}
 	if err := cmd.Start(); err != nil {
 		return err
 	}
